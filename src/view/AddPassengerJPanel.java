@@ -25,6 +25,7 @@ public class AddPassengerJPanel extends JPanel {
 	JButton btnClear = new JButton("Clear");
 	JButton btnSubmit = new JButton("Submit");
 	JButton btnBackToMain = new JButton("Back to Main Menu");
+	JLabel lblError = new JLabel("");
 	private static ArrayList<Passenger> allPassengers = new ArrayList<Passenger>();	//Stores passengers
 	
 	//Getter method for passenger ArrayList for ticket creation
@@ -72,6 +73,9 @@ public class AddPassengerJPanel extends JPanel {
 		form.add(txtPassengerStatus, "6, 8, fill, default");
 		txtPassengerStatus.setColumns(10);
 		
+		
+		form.add(lblError, "4, 10, right, default");
+		
 		//implement button listener
 		buttonListener bl = new buttonListener();
 		btnSubmit.addActionListener(bl);
@@ -91,10 +95,14 @@ public class AddPassengerJPanel extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == btnSubmit) {
-				Passenger passengerToAdd;
-				passengerToAdd = new Passenger(Integer.parseInt(txtPassengerId.getText()), txtPassengerName.getText(), Integer.parseInt(txtPassengerStatus.getText()));
-				
-				allPassengers.add(passengerToAdd);
+				try {
+					Passenger passengerToAdd;
+					passengerToAdd = new Passenger(Integer.parseInt(txtPassengerId.getText()), txtPassengerName.getText(), Integer.parseInt(txtPassengerStatus.getText()));
+			
+					allPassengers.add(passengerToAdd);
+				} catch (Exception e2) {
+					lblError.setText("All fields are required");
+				}
 				clearAllFields();
 			} else if (e.getSource() == btnClear) {
 				clearAllFields();

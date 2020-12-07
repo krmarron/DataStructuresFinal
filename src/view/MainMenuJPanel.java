@@ -14,6 +14,7 @@ public class MainMenuJPanel extends JPanel {
 	JButton btnAddNewPassenger = new JButton("Add New Passenger");	//Create Passenger
 	JButton btnViewAllFlights = new JButton("Select a Flight");		//Select Flight
 	JButton btnViewTickets = new JButton("View Tickets");			//Ticket Display
+	JLabel lblError = new JLabel("");
 	
 	//Create Panel
 	public MainMenuJPanel() {
@@ -33,6 +34,7 @@ public class MainMenuJPanel extends JPanel {
 		buttons.add(btnAddNewPassenger);
 		buttons.add(btnViewAllFlights);
 		buttons.add(btnViewTickets);
+		add(lblError, BorderLayout.SOUTH);
 		
 		add(buttons, BorderLayout.CENTER);
 	}
@@ -42,15 +44,19 @@ public class MainMenuJPanel extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			JPanel newPanel = new JPanel();
+			try {
 			if (e.getSource() == btnAddNewPassenger) {
 				newPanel = new AddPassengerJPanel();
 			} else if (e.getSource() == btnViewAllFlights) {
 				newPanel = new ViewAllFlightsJPanel();
 			} else if (e.getSource() == btnViewTickets) {
-				newPanel = new ViewTicketsJPanel();
+					newPanel = new ViewTicketsJPanel();
 			}
-			
 			sendToNewPanel(newPanel);
+			} catch (Exception e2) {
+				newPanel = new MainMenuJPanel();
+				lblError.setText("No tickets stored");
+			}
 		}
 		
 		private void sendToNewPanel(JPanel newPanel) {
